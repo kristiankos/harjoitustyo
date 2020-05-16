@@ -10,6 +10,7 @@ public class Artist {
 	}
 
 	public Artist(String name, long id) {
+		this.name = name;
 		this.id = id;
 	}
 
