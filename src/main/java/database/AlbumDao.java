@@ -8,10 +8,10 @@ import model.Album;
 public interface AlbumDao {
 
 	public List<Album> getAllAlbums();
-	
-	public Album getAlbum(long id);
-	
+		
 	public boolean addAlbum(Album newAlbum);
 	
 	public boolean removeAlbum(Album newAlbum);
-}
+
+	
+	}

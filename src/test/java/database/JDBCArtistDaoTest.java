@@ -1,6 +1,8 @@
 package database;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -16,6 +18,29 @@ class JDBCArtistDaoTest {
 	void testGetAllArtists() {
 		List<Artist> artists = dao.getAllArtists();
 
-		assertEquals(275, artists.size());
+		assertFalse(artists.isEmpty());
 	}
+	
+	@Test
+	void testGetArtist() {
+		
+		Artist artist = dao.getArtist(1);
+		
+		assertEquals("AC/DC", artist.getName());
+	}
+	
+	@Test
+	void testAddArtist() {
+		Artist newArtist = new Artist("TestiArtisti");
+		assertTrue(dao.addArtist(newArtist));
+	}
+	
+	@Test
+	void testRemoveArtist() {
+		Artist artist = new Artist("TestiArtisti");
+		dao.addArtist(artist);
+		assertTrue(dao.removeArtist(artist));
+		
+	}
+
 }

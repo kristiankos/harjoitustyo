@@ -4,14 +4,9 @@ import java.util.List;
 
 import model.Album;
 
-public class JDBCAlbumDao implements AlbumDao{
+public class JDBCAlbumDao implements AlbumDao {
 
 	public List<Album> getAllAlbums() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Album getAlbum(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -25,5 +20,6 @@ public class JDBCAlbumDao implements AlbumDao{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }

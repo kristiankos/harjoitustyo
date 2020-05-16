@@ -1,6 +1,7 @@
 package model;
 
-public class Artist {
+
+public class Artist implements Comparable<Artist>{
 
 	private long id;
 	private String name;
@@ -28,6 +29,10 @@ public class Artist {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public int compareTo(Artist artist) {
+		return this.getName().compareToIgnoreCase(artist.getName());
 	}
 
 }
