@@ -26,7 +26,7 @@ public class JDBCArtistDao implements ArtistDao{
 		
 		try {
 			connection = database.connect();
-			statement = connection.prepareStatement("SELECT * FROM Artist ORDER BY Name COLLATE NOCASE ASC;");
+			statement = connection.prepareStatement("SELECT * FROM Artist ORDER BY Name ASC;");
 			results = statement.executeQuery();
 			
 			while (results.next()) {
@@ -41,7 +41,7 @@ public class JDBCArtistDao implements ArtistDao{
 		return artists;
 	}
 	
-	public Map<Artist, Integer> getAllAlbumsByArtist() {
+	public Map<Artist, Integer> getAllArtistsAndAlbumCount() {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet results = null;
@@ -51,13 +51,13 @@ public class JDBCArtistDao implements ArtistDao{
 		try {
 			connection = database.connect();
 			statement = connection.prepareStatement(
-					"SELECT Name, count(al.AlbumId) as Count FROM Artist as a left join Album as al on a.ArtistId = al.ArtistId GROUP BY Name ORDER BY name ASC;");
+					"SELECT Name, Artist.ArtistId, count(Album.AlbumId) as Count FROM Artist left join Album on Artist.ArtistId = Album.ArtistId GROUP BY Name ORDER BY Name ASC;");
 			results = statement.executeQuery();
 
 			while (results.next()) {
-				Artist newArtist = new Artist(results.getString("Name"));
-				Integer count = (results.getInt("count"));
-				albums.put(newArtist, count);
+				Artist artist = new Artist(results.getString("Name"), results.getLong("ArtistId"));
+				Integer albumCount = (results.getInt("count"));
+				albums.put(artist, albumCount);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -95,6 +95,7 @@ public class JDBCArtistDao implements ArtistDao{
 		PreparedStatement statement = null;
 		ResultSet results = null;
 
+			
 		try {
 			connection = database.connect();
 			// By Yishai & Lukas Eder, cc by-sa 4.0

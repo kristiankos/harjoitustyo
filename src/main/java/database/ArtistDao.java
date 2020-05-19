@@ -9,7 +9,7 @@ public interface ArtistDao {
 
 	public List<Artist> getAllArtists();
 	
-	public Map<Artist, Integer> getAllAlbumsByArtist();
+	public Map<Artist, Integer> getAllArtistsAndAlbumCount();
 	
 	public Artist getArtist(long id);
 	

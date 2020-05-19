@@ -4,8 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import model.Artist;
@@ -13,12 +17,22 @@ import model.Artist;
 class JDBCArtistDaoTest {
 
 	private static JDBCArtistDao dao = new JDBCArtistDao();
+	private static Database database = new Database();
+	
+	@BeforeEach
+	public void setUp() throws Exception {
+		Connection connection = database.connect();
+		connection.prepareStatement("DELETE FROM Artist").executeUpdate();
+		connection.prepareStatement("INSERT INTO Artist (Name) VALUES ('ABBA'), ('AC/DC')").executeUpdate();
+		connection.close();
+		
+	}
 
 	@Test
 	void testGetAllArtists() {
 		List<Artist> artists = dao.getAllArtists();
 
-		assertFalse(artists.isEmpty());
+		assertEquals(2, artists.size());
 	}
 	
 	@Test
@@ -26,7 +40,7 @@ class JDBCArtistDaoTest {
 		
 		Artist artist = dao.getArtist(1);
 		
-		assertEquals("AC/DC", artist.getName());
+		assertEquals("ABBA", artist.getName());
 	}
 	
 	@Test
@@ -40,6 +54,20 @@ class JDBCArtistDaoTest {
 		Artist artist = new Artist("TestiArtisti");
 		dao.addArtist(artist);
 		assertTrue(dao.removeArtist(artist));
+		
+	}
+	
+	@Test
+	void testgetAllArtistsAndAlbumCount() {
+		Artist artist = new Artist("TestiArtisti");
+		dao.addArtist(artist);
+		Artist artist2 = new Artist("testiartisti");
+		dao.addArtist(artist2);
+		Map<Artist, Integer> map = dao.getAllArtistsAndAlbumCount();
+		assertEquals(3, map.size());
+		
+		
+		
 		
 	}
 
