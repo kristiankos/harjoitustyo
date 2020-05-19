@@ -1,11 +1,9 @@
 package database;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +62,7 @@ class JDBCArtistDaoTest {
 		Artist artist2 = new Artist("testiartisti");
 		dao.addArtist(artist2);
 		Map<Artist, Integer> map = dao.getAllArtistsAndAlbumCount();
-		assertEquals(3, map.size());
+		assertEquals(4, map.size());
 		
 		
 		

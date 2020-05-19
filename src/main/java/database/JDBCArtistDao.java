@@ -30,8 +30,8 @@ public class JDBCArtistDao implements ArtistDao{
 			results = statement.executeQuery();
 			
 			while (results.next()) {
-				Artist newArtist = new Artist(results.getString("Name"), results.getLong("ArtistId"));
-				artists.add(newArtist);
+				Artist artist = new Artist(results.getString("Name"), results.getLong("ArtistId"));
+				artists.add(artist);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -95,7 +95,6 @@ public class JDBCArtistDao implements ArtistDao{
 		PreparedStatement statement = null;
 		ResultSet results = null;
 
-			
 		try {
 			connection = database.connect();
 			// By Yishai & Lukas Eder, cc by-sa 4.0
@@ -143,5 +142,6 @@ public class JDBCArtistDao implements ArtistDao{
 
 		return false;
 	}
+
 	
 }

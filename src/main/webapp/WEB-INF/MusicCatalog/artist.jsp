@@ -19,7 +19,7 @@
 	</header>
 	<br/>
 	<p>Search an artist</p>
-	<form method="post">
+	<form action="artist" method="get">
 		<input name="name" required type="text" placeholder="type name here..."/>
 		<input type="submit" value="Search" />
 	</form>
@@ -33,7 +33,7 @@
 			<tr>
 				<td><!--Tähän albumi 1.  --></td>
 			</tr>
-
+		<!-- todo: poista artisti -->
 		</tbody>
 	</table>
 </body>

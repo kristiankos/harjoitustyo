@@ -1,12 +1,17 @@
 package model;
 
-public class Artist implements Comparable<Artist> {
+
+public class Artist implements Comparable<Artist>{
+
 
 	private long id;
 	private String name;
 
 	public Artist(String name) {
 		this.name = name;
+	}
+	public Artist(long id) {
+		this.id = id;
 	}
 
 	public Artist(String name, long id) {
@@ -31,6 +36,14 @@ public class Artist implements Comparable<Artist> {
 	}
 
 	public int compareTo(Artist artist) {
-		return this.getName().compareToIgnoreCase(artist.getName());
+		// ei anneta tämän palauttaa milloinkaan "0", koska ei haluta että mapilta jää pois tavaraa
+		if (this.getName().compareToIgnoreCase(artist.getName()) >= 0) {
+			return 1;
+			
+		} else {
+			return -1;
+		}
+
 	}
+	
 }

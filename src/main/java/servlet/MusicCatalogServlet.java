@@ -15,39 +15,40 @@ import database.JDBCArtistDao;
 import model.Artist;
 
 @WebServlet("")
-public class MusicCatalogServlet extends HttpServlet{
-	
+public class MusicCatalogServlet extends HttpServlet {
+
 	private final ArtistDao artistDao = new JDBCArtistDao();
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		Map<Artist, Integer> artists = this.artistDao.getAllArtistsAndAlbumCount();
 
-		req.setAttribute("artists", artists);
-		
+		Map<Artist, Integer> artistsMap = this.artistDao.getAllArtistsAndAlbumCount();
+
+		req.setAttribute("artists", artistsMap);
+
 		req.getRequestDispatcher("WEB-INF/MusicCatalog/index.jsp").forward(req, resp);
-		
+
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String name = req.getParameter("name");
 		Artist artist = new Artist(name);
-		
+
+		// Kahta täysin samannimistä artistia ei saa olla (huom casesensitive)
 		List<Artist> allArtists = this.artistDao.getAllArtists();
 		boolean contains = false;
-		
+
 		for (int i = 0; i < allArtists.size(); i++) {
-			if (artist.getName().equalsIgnoreCase(allArtists.get(i).getName())) {
+			if (artist.getName().equals(allArtists.get(i).getName())) {
 				contains = true;
 			}
 		}
-		
+
 		if (contains == false) {
 			this.artistDao.addArtist(artist);
 		}
-				
+
 		resp.sendRedirect("/");
 	}
 
