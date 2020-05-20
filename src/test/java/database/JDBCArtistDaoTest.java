@@ -38,7 +38,7 @@ class JDBCArtistDaoTest {
 		
 		Artist artist = dao.getArtist(1);
 		
-		assertEquals("ABBA", artist.getName());
+		assertEquals("ABBA", artist.getTitle());
 	}
 	
 	@Test
@@ -61,11 +61,10 @@ class JDBCArtistDaoTest {
 		dao.addArtist(artist);
 		Artist artist2 = new Artist("testiartisti");
 		dao.addArtist(artist2);
+		Artist artist3 = new Artist("testiartisti");
+		dao.addArtist(artist3);
 		Map<Artist, Integer> map = dao.getAllArtistsAndAlbumCount();
-		assertEquals(4, map.size());
-		
-		
-		
+		assertEquals(5, map.size());
 		
 	}
 

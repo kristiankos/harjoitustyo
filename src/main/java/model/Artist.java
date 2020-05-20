@@ -1,17 +1,14 @@
 package model;
 
 
-public class Artist implements Comparable<Artist>{
+public class Artist implements Comparable<Artist>, MusicData {
 
 
-	private long id;
 	private String name;
+	private long id;
 
 	public Artist(String name) {
 		this.name = name;
-	}
-	public Artist(long id) {
-		this.id = id;
 	}
 
 	public Artist(String name, long id) {
@@ -19,31 +16,41 @@ public class Artist implements Comparable<Artist>{
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	@Override
+	public String getTitle() {
+		return this.name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
 	}
 
+	@Override
 	public int compareTo(Artist artist) {
-		// ei anneta tämän palauttaa milloinkaan "0", koska ei haluta että mapilta jää pois tavaraa
-		if (this.getName().compareToIgnoreCase(artist.getName()) >= 0) {
+		
+		
+		  // ei anneta tämän palauttaa milloinkaan "0", koska ei haluta että mapilta jää pois tavaraa
+		if (this.getTitle().compareToIgnoreCase(artist.getTitle()) >=0) {
 			return 1;
-			
-		} else {
+		} else  {
 			return -1;
 		}
-
+		 
+		 
+	}
+	
+	@Override
+	public String getUrl() {
+		return "/artist?ArtistId=" + this.id;
 	}
 	
 }

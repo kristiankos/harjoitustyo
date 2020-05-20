@@ -1,25 +1,28 @@
 package model;
 
-public class Album {
+public class Album implements MusicData {
 	
-	private long albumId;
+	private long id;
 	private String title;
 	private Artist artist;
 	
 	
-	public Album(long albumId, String title, Artist artist) {
-		this.albumId = albumId;
+	public Album(long id, String title, Artist artist) {
+		this.id = id;
 		this.title = title;
 		this.artist = artist;
 	}
 	
+	@Override
+	public long getId() {
+		return id;
+	}
 	
-	public long getAlbumId() {
-		return albumId;
+	public void setId(long id) {
+		this.id = id;
 	}
-	public void setAlbumId(long albumId) {
-		this.albumId = albumId;
-	}
+	
+	@Override
 	public String getTitle() {
 		return title;
 	}
@@ -31,6 +34,12 @@ public class Album {
 	}
 	public void setArtist(Artist artist) {
 		this.artist = artist;
+	}
+
+	@Override
+	public String getUrl() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

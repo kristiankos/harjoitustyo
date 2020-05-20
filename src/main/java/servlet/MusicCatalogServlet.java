@@ -22,9 +22,10 @@ public class MusicCatalogServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		Map<Artist, Integer> artistsMap = this.artistDao.getAllArtistsAndAlbumCount();
+		Map<Artist, Integer> artistsMap = artistDao.getAllArtistsAndAlbumCount();
 
 		req.setAttribute("artists", artistsMap);
+		req.setAttribute("size", artistsMap.size());
 
 		req.getRequestDispatcher("WEB-INF/MusicCatalog/index.jsp").forward(req, resp);
 
@@ -34,20 +35,18 @@ public class MusicCatalogServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String name = req.getParameter("name");
 		Artist artist = new Artist(name);
+		this.artistDao.addArtist(artist);
 
-		// Kahta täysin samannimistä artistia ei saa olla (huom casesensitive)
-		List<Artist> allArtists = this.artistDao.getAllArtists();
-		boolean contains = false;
-
-		for (int i = 0; i < allArtists.size(); i++) {
-			if (artist.getName().equals(allArtists.get(i).getName())) {
-				contains = true;
-			}
-		}
-
-		if (contains == false) {
-			this.artistDao.addArtist(artist);
-		}
+		/*
+		 * // Kahta täysin samannimistä artistia ei saa olla (huom casesensitive)
+		 * List<Artist> allArtists = this.artistDao.getAllArtists(); boolean contains =
+		 * false;
+		 * 
+		 * for (int i = 0; i < allArtists.size(); i++) { if
+		 * (artist.getName().equals(allArtists.get(i).getName())) { contains = true; } }
+		 * 
+		 * if (contains == false) { this.artistDao.addArtist(artist); }
+		 */
 
 		resp.sendRedirect("/");
 	}

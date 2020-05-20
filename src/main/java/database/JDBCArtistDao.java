@@ -46,16 +46,17 @@ public class JDBCArtistDao implements ArtistDao{
 		PreparedStatement statement = null;
 		ResultSet results = null;
 
-		Map<Artist, Integer> albums = new TreeMap<Artist, Integer>();
+		Map<Artist, Integer> albums = new TreeMap<>();
 
 		try {
 			connection = database.connect();
 			statement = connection.prepareStatement(
-					"SELECT Name, Artist.ArtistId, count(Album.AlbumId) as Count FROM Artist left join Album on Artist.ArtistId = Album.ArtistId GROUP BY Name ORDER BY Name ASC;");
+					"SELECT Name, Artist.ArtistId, count(Album.AlbumId) as Count FROM Artist left join Album on Artist.ArtistId = Album.ArtistId GROUP BY Artist.ArtistId ORDER BY Artist.Name ASC;");
 			results = statement.executeQuery();
 
 			while (results.next()) {
-				Artist artist = new Artist(results.getString("Name"), results.getLong("ArtistId"));
+				// Artist artist = new Artist(results.getString("Name"), results.getLong("ArtistId"));
+				Artist artist = getArtist(results.getLong("ArtistId"));
 				Integer albumCount = (results.getInt("count"));
 				albums.put(artist, albumCount);
 			}
@@ -101,7 +102,7 @@ public class JDBCArtistDao implements ArtistDao{
 			// https://stackoverflow.com/a/1376241/12748248
 			statement = connection.prepareStatement("INSERT INTO Artist (Name) VALUES (?);",
 					Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, newArtist.getName());
+			statement.setString(1, newArtist.getTitle());
 			statement.execute();
 			results = statement.getGeneratedKeys();
 			if (results.next()) {

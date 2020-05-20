@@ -13,6 +13,9 @@
 		<a href="/artist">Artists</a>
 	</header>
 	<br/>
+	<p>
+	${size }
+	</p>
 	
 	<p>Search an artist</p>
 	<form action="artist" method="get">
@@ -36,7 +39,7 @@
 			<c:forEach items="${ artists }" var="artist" varStatus="loop">
 				<tr>
 					<td><c:out value="${loop.count }" /></td>
-					<td><a href="/artist?artistId=${artist.getKey().getId() }"><c:out value="${artist.getKey().getName() }" /></a></td>
+					<td><a href="${artist.getKey().getUrl() }"><c:out value="${artist.getKey().getTitle() }" /></a></td>
 					<td><c:out value="${artist.getValue() }" /></td>
 					<!-- todo: poista artisti (tai ehkä vain artistin omalta sivulta..) -->
 				</tr>

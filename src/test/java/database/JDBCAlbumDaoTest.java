@@ -10,12 +10,20 @@ import model.Album;
 
 class JDBCAlbumDaoTest {
 	
-	private static JDBCAlbumDao dao = new JDBCAlbumDao();
+	private static JDBCArtistDao artistDao = new JDBCArtistDao();
+	private static JDBCAlbumDao albumDao = new JDBCAlbumDao();
 
 	@Test
 	void testGetAllAlbums() {
-		List<Album> albums = dao.getAllAlbums();
+		List<Album> albums = albumDao.getAllAlbums();
 
+		assertTrue(!albums.isEmpty());
+	}
+	
+	@Test
+	void testGetAllAlbumsByArtist() {
+		List<Album> albums = albumDao.getAllAlbumsByArtist(artistDao.getArtist(1));
+		
 		assertTrue(!albums.isEmpty());
 	}
 
