@@ -133,8 +133,35 @@ public class JDBCAlbumDao implements AlbumDao {
 
 	@Override
 	public boolean removeAlbum(Album album) {
-		// TODO Auto-generated method stub
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		
+		try {
+			connection = database.connect();
+			// By Yishai & Lukas Eder, cc by-sa 4.0
+			// https://stackoverflow.com/a/1376241/12748248
+			statement = connection.prepareStatement("DELETE FROM Album WHERE AlbumId = (?);");
+			statement.setLong(1, album.getId());
+			// executeUpdate palauttaa poistettujen rivien määrän.
+			int deletedRows = statement.executeUpdate();
+			if (deletedRows > 0) {
+				return true;
+			} else {
+				return false;
+			}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close(connection, statement, results);
+		}
+		
+		
 		return false;
+		
 	}
 
 	@Override

@@ -13,12 +13,12 @@ public class Artist implements Comparable<Artist>, MusicData {
 	public Artist(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public long getId() {
 		return this.id;
 	}
-	
+
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -34,15 +34,16 @@ public class Artist implements Comparable<Artist>, MusicData {
 
 	@Override
 	public int compareTo(Artist artist) {
-		
-		// Jotta Artist-objektia voidaan käyttää map-tietorakenteessa avaimena, tehdään sille metodi, joka vertaa kahta oliota titlen perusteella.
+
+		// Jotta Artist-objektia voidaan käyttää map-tietorakenteessa avaimena, tehdään
+		// sille metodi, joka vertaa kahta oliota titlen perusteella.
 		// ei anneta tämän palauttaa milloinkaan "0", koska ei haluta että mapilta jää
 		// pois tavaraa
-		
+
 		if (this.getTitle() == null) {
-				
-			}
-		
+
+		}
+
 		if (this.getTitle().compareToIgnoreCase(artist.getTitle()) >= 0) {
 			return 1;
 		} else {

@@ -32,11 +32,11 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${ search }" var="search" varStatus="loop">
+			<c:forEach items="${ searchResults }" var="search" varStatus="loop">
 				<tr>
 					<td><c:out value="${loop.count }" /></td>
 					<td><a href="${search.getUrl() }"><c:out value="${search.getTitle()}" /></a></td>
-					<td><c:out value="" /></td>
+					<td><c:out value="${search.getClass().getSimpleName()}" /></td>
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import model.Artist;
-import model.Track;
 
 public class JDBCArtistDao implements ArtistDao {
 
@@ -77,6 +76,7 @@ public class JDBCArtistDao implements ArtistDao {
 		ResultSet results = null;
 
 		Map<Artist, Integer> albums = new TreeMap<>();
+		
 
 		try {
 			connection = database.connect();
@@ -85,7 +85,7 @@ public class JDBCArtistDao implements ArtistDao {
 			results = statement.executeQuery();
 
 			while (results.next()) {
-				Artist artist = getArtist(results.getLong("ArtistId"));
+				Artist artist = new Artist(results.getLong("ArtistId"), results.getString("Name"));
 				Integer albumCount = (results.getInt("count"));
 				albums.put(artist, albumCount);
 			}

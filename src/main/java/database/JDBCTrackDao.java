@@ -88,7 +88,7 @@ public class JDBCTrackDao implements TrackDao {
 			results = statement.executeQuery();
 
 			while (results.next()) {
-				Track track = getTrack(results.getLong("TrackId"));
+				Track track = new Track(results.getLong("TrackId"), results.getString("Name"), album);
 				tracks.add(track);
 			}
 
@@ -132,7 +132,29 @@ public class JDBCTrackDao implements TrackDao {
 
 	@Override
 	public boolean removeTrack(Track track) {
-		// TODO Auto-generated method stub
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+
+		try {
+			connection = database.connect();
+			statement = connection.prepareStatement("DELETE FROM Track WHERE TrackId = (?);");
+			statement.setLong(1, track.getId());
+			// executeUpdate palauttaa poistettujen rivien määrän.
+			int deletedRows = statement.executeUpdate();
+			if (deletedRows > 0) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close(connection, statement, results);
+		}
+
 		return false;
 	}
 

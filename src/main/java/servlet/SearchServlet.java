@@ -20,30 +20,29 @@ import model.Artist;
 import model.MusicData;
 
 @WebServlet("/search")
-public class SearchServlet extends HttpServlet{
-	
+public class SearchServlet extends HttpServlet {
+
 	private final ArtistDao artistDao = new JDBCArtistDao();
 	private final AlbumDao albumDao = new JDBCAlbumDao();
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		String keyword = req.getParameter("keyword");
-		
+
 		List<Album> albums = new ArrayList<Album>();
 		albums = this.albumDao.searchAlbum(keyword);
 		List<Artist> artists = new ArrayList<Artist>();
 		artists = this.artistDao.searchArtist(keyword);
-		
+
 		List<MusicData> searchResults = new ArrayList<>();
 		searchResults.addAll(albums);
 		searchResults.addAll(artists);
-		
+
 		searchResults.sort(Comparator.comparing(MusicData::getTitle));
-		
-		req.setAttribute("search", searchResults);
+
+		req.setAttribute("searchResults", searchResults);
 
 		req.getRequestDispatcher("WEB-INF/MusicCatalog/search.jsp").forward(req, resp);
-		
-	
+
 	}
 }
