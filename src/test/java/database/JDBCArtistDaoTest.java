@@ -30,7 +30,7 @@ class JDBCArtistDaoTest {
 	void testGetAllArtists() {
 		List<Artist> artists = dao.getAllArtists();
 
-		assertEquals(2, artists.size());
+		assertTrue(!artists.isEmpty());
 	}
 	
 	@Test
@@ -71,7 +71,7 @@ class JDBCArtistDaoTest {
 	@Test
 	void testSearchArtist() {
 		List<Artist> artists = dao.searchArtist("ac");
-		assertTrue(!artists.isEmpty());
+		assertEquals(1, artists.size());
 	}
 
 }

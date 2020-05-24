@@ -102,33 +102,6 @@ public class JDBCTrackDao implements TrackDao {
 		
 	}
 
-	@Override
-	public boolean addTrack(Track track) {
-
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet results = null;
-
-		try {
-			connection = database.connect();
-			// By Yishai & Lukas Eder, cc by-sa 4.0
-			// https://stackoverflow.com/a/1376241/12748248
-			/*
-			 * statement = connection.
-			 * prepareStatement("INSERT INTO Album (Title, ArtistId) VALUES (?), (?);",
-			 * Statement.RETURN_GENERATED_KEYS); statement.setString(1,
-			 * newAlbum.getTitle()); statement.setLong(2, newAlbum.getArtist().getId());
-			 * results = statement.executeQuery(); results = statement.getGeneratedKeys();
-			 * if (results.next()) { newAlbum.setId(results.getLong(1)); return true; }
-			 */
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			database.close(connection, statement, results);
-		}
-		return false;
-	}
 
 	@Override
 	public boolean removeTrack(Track track) {

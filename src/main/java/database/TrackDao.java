@@ -13,8 +13,6 @@ public interface TrackDao {
 
 	public List<Track> getAllTracksByAlbum(Album album);
 
-	public boolean addTrack(Track track);
-
 	public boolean removeTrack(Track track);
 
 }

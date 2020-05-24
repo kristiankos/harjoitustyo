@@ -26,14 +26,21 @@ public class ArtistServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		String parameter = req.getParameter("id");
-		if (parameter != null) {
+		if (parameter != null) { // Jos syötettä ei ole, lähetetään "tyhjä" sivu.
+
+			/*
+			 * Jos syötettä ei pysty "kääntämään" longiksi, tulee NumberFormatExceptionista
+			 * johtuva Internal Server Error. Tämän tosin pitäisi tapahtua vain jos käyttäjä
+			 * syöttää osoitekenttään tekstiä.
+			 */
 			long id = Long.parseLong(parameter);
 			Artist artist = this.artistDao.getArtist(id);
 			if (artist != null) {
-			List<Album> albums = this.albumDao.getAllAlbumsByArtist(artist);
-			req.setAttribute("artist", artist);
-			req.setAttribute("albums", albums);
+				List<Album> albums = this.albumDao.getAllAlbumsByArtist(artist);
+				req.setAttribute("artist", artist);
+				req.setAttribute("albums", albums);
 			}
+
 		}
 
 		req.getRequestDispatcher("WEB-INF/MusicCatalog/artist.jsp").forward(req, resp);

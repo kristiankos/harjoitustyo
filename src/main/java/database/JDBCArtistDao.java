@@ -71,6 +71,14 @@ public class JDBCArtistDao implements ArtistDao {
 
 	@Override
 	public Map<Artist, Integer> getAllArtistsAndAlbumCount() {
+		
+		/*
+		 * Map-tietorakenne valikoitui ratkaisuksi, koska se oli yksi kurssin aiheista, enkä sitä kauheasti ole käyttänyt.
+		 * SQL-kyselyn pohjalta luotujen Artist-olioiden vieminen TreeMapiin aiheutti ongelmia, kun haluttiin välttää samannimisten artistien menemistä sekaisin.
+		 * Tämä ratkaisu toimii, mutta vaikuttaa vähän viritykseltä. Toiste en käyttäisi tälläisessä tilanteessa samaa ratkaisua.
+		 * Tämän olisi voinut toteuttaa monella muullakin tavalla. Esimerkiksi antamalla Artist-oliolle attribuutiksi lista julkaistuista albumeista.
+		 */
+		
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet results = null;

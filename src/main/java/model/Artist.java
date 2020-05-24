@@ -35,10 +35,12 @@ public class Artist implements Comparable<Artist>, MusicData {
 	@Override
 	public int compareTo(Artist artist) {
 
-		// Jotta Artist-objektia voidaan käyttää map-tietorakenteessa avaimena, tehdään
-		// sille metodi, joka vertaa kahta oliota titlen perusteella.
-		// ei anneta tämän palauttaa milloinkaan "0", koska ei haluta että mapilta jää
-		// pois tavaraa
+	
+		/*
+		 * Jotta Artist-objektia voidaan käyttää map-tietorakenteessa avaimena, tulee se voida olla vertailtavissa toiseen Artist-olioon. Tämä metodi on sitä varten.
+		 * Jos artistilla ei ole titleä (käyttäjäkerroksessa tämä ei ole mahdollista), tulee se silti olla mahdollista asettaa mapiin.
+		 * Metodin ei anneta milloinkaan palauttaa "nolla", jottei toinen samanniminen artisti ylikirjoita ensimmäistä artistia.
+		 */
 
 		if (this.getTitle() == null) {
 

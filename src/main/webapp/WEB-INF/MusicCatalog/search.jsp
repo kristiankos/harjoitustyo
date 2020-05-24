@@ -3,9 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-	<title>
-	Search
-	</title>
+	<title>Search</title>
 <!-- Really simple classless CSS stylesheet, see: https://github.com/oxalorg/sakura -->
 <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
 </head>

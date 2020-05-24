@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -22,6 +21,7 @@ public class MusicCatalogServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		// Arvo, Integer, kuvastaa artistin julkaisemien albumien määrää. Tässä siitä jää vaikutus "taikanumerosta".
 		Map<Artist, Integer> artistsMap = artistDao.getAllArtistsAndAlbumCount();
 
 		req.setAttribute("artists", artistsMap);

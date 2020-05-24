@@ -29,7 +29,8 @@ class JDBCAlbumDaoTest {
 	
 	@Test
 	void testGetAlbum() {
-		
+		Album album = albumDao.getAlbum(1);
+		assertTrue(album != null);
 	}
 
 }

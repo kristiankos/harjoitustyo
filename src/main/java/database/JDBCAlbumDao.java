@@ -144,7 +144,6 @@ public class JDBCAlbumDao implements AlbumDao {
 			// https://stackoverflow.com/a/1376241/12748248
 			statement = connection.prepareStatement("DELETE FROM Album WHERE AlbumId = (?);");
 			statement.setLong(1, album.getId());
-			// executeUpdate palauttaa poistettujen rivien määrän.
 			int deletedRows = statement.executeUpdate();
 			if (deletedRows > 0) {
 				return true;

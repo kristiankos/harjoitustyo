@@ -47,7 +47,6 @@
 					<td><c:out value="${loop.count }" /></td>
 					<td><a href="${artist.getKey().getUrl() }"><c:out value="${artist.getKey().getTitle() }" /></a></td>
 					<td><c:out value="${artist.getValue() }" /></td>
-					<!-- todo: poista artisti (tai ehkä vain artistin omalta sivulta..) -->
 				</tr>
 			</c:forEach>
 		</tbody>
