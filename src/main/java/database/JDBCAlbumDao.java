@@ -13,70 +13,96 @@ import model.Artist;
 
 public class JDBCAlbumDao implements AlbumDao {
 
-	private JDBCArtistDao artistDao = new JDBCArtistDao();
 	private Database database = new Database();
-	
+	private JDBCArtistDao artistDao = new JDBCArtistDao();
+
+	@Override
+	public Album getAlbum(long id) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+
+		try {
+			connection = database.connect();
+			statement = connection.prepareStatement("SELECT * FROM Album WHERE AlbumId = (?)");
+			statement.setLong(1, id);
+			results = statement.executeQuery();
+
+			if (results.next()) {
+				Artist artist = artistDao.getArtist(results.getLong("ArtistId"));
+				Album album = new Album(results.getLong("AlbumId"), results.getString("Title"), artist);
+				return album;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close(connection, statement, results);
+		}
+		
+		return null;
+	}
+
 	@Override
 	public List<Album> getAllAlbums() {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet results = null;
-		
+
 		List<Album> albums = new ArrayList<Album>();
-		
+
 		try {
 			connection = database.connect();
 			statement = connection.prepareStatement("SELECT * FROM Album;");
 			results = statement.executeQuery();
-			
+
 			while (results.next()) {
 				Artist artist = this.artistDao.getArtist(results.getLong("ArtistId"));
 				Album album = new Album(results.getLong("AlbumId"), results.getString("Title"), artist);
 				albums.add(album);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			database.close(connection, statement, results);
 		}
 		return albums;
-				
-		
+
 	}
 
 	@Override
 	public List<Album> getAllAlbumsByArtist(Artist artist) {
-		
+
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet results = null;
-		
+
 		List<Album> albums = new ArrayList<Album>();
-		
+
 		try {
 			connection = database.connect();
-			statement = connection.prepareStatement("SELECT * FROM Album WHERE ArtistId = (?);");
+			statement = connection.prepareStatement("SELECT * FROM Album WHERE ArtistId = (?) ORDER BY Title;");
 			statement.setLong(1, artist.getId());
 			results = statement.executeQuery();
-			
+
 			while (results.next()) {
 				Album album = new Album(results.getLong("AlbumId"), results.getString("Title"), artist);
 				albums.add(album);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			database.close(connection, statement, results);
 		}
-		
+
 		return albums;
 	}
 
 	@Override
-	public boolean addAlbum(Album newAlbum) {
+	public boolean addAlbum(Album album) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -84,14 +110,16 @@ public class JDBCAlbumDao implements AlbumDao {
 
 		try {
 			connection = database.connect();
+			// By Yishai & Lukas Eder, cc by-sa 4.0
+			// https://stackoverflow.com/a/1376241/12748248
 			statement = connection.prepareStatement("INSERT INTO Album (Title, ArtistId) VALUES (?), (?);",
 					Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, newAlbum.getTitle());
-			statement.setLong(2, newAlbum.getArtist().getId());
+			statement.setString(1, album.getTitle());
+			statement.setLong(2, album.getArtist().getId());
 			results = statement.executeQuery();
 			results = statement.getGeneratedKeys();
 			if (results.next()) {
-				newAlbum.setId(results.getLong(1));
+				album.setId(results.getLong(1));
 				return true;
 			}
 
@@ -104,9 +132,15 @@ public class JDBCAlbumDao implements AlbumDao {
 	}
 
 	@Override
-	public boolean removeAlbum(Album newAlbum) {
+	public boolean removeAlbum(Album album) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Artist> searchArtist() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

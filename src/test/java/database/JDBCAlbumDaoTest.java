@@ -26,5 +26,10 @@ class JDBCAlbumDaoTest {
 		
 		assertTrue(!albums.isEmpty());
 	}
+	
+	@Test
+	void testGetAlbum() {
+		
+	}
 
 }

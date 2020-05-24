@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 	<title>
 	Artists
-	<c:if test="${ artist != null}"> - ${artist.getName() }</c:if>
+	<c:if test="${ artist != null}"> - ${artist.getTitle() }</c:if>
 	</title>
 <!-- Really simple classless CSS stylesheet, see: https://github.com/oxalorg/sakura -->
 <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
@@ -18,23 +18,31 @@
 	</div>
 	</header>
 	<br/>
+	<div>
 	<p>Search an artist</p>
 	<form action="artist" method="get">
 		<input name="name" required type="text" placeholder="type name here..."/>
 		<input type="submit" value="Search" />
 	</form>
+	</div>
+	<c:if test="${ artist != null}">
+	<h2>${artist.getTitle() }</h2>
+	<div>
 	<table>
 		<thead>
 			<tr>
-				<th>${artist.getName() }</th>
+				<th>Albums</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td><!--Tähän albumi 1.  --></td>
-			</tr>
-		<!-- todo: poista artisti -->
+			<c:forEach items="${ albums }" var="album">
+				<tr>
+					<td><c:out value="${ album.getTitle() }" /></td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
+	</div>
+	</c:if>
 </body>
 </html>

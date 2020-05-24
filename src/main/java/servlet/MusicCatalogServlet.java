@@ -37,17 +37,6 @@ public class MusicCatalogServlet extends HttpServlet {
 		Artist artist = new Artist(name);
 		this.artistDao.addArtist(artist);
 
-		/*
-		 * // Kahta täysin samannimistä artistia ei saa olla (huom casesensitive)
-		 * List<Artist> allArtists = this.artistDao.getAllArtists(); boolean contains =
-		 * false;
-		 * 
-		 * for (int i = 0; i < allArtists.size(); i++) { if
-		 * (artist.getName().equals(allArtists.get(i).getName())) { contains = true; } }
-		 * 
-		 * if (contains == false) { this.artistDao.addArtist(artist); }
-		 */
-
 		resp.sendRedirect("/");
 	}
 

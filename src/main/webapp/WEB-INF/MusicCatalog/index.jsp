@@ -32,7 +32,7 @@
 			<tr>
 				<th>#</th>
 				<th>Artist</th>
-				<th>Album</th>
+				<th>Albums</th>
 			</tr>
 		</thead>
 		<tbody>

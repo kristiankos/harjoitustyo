@@ -12,25 +12,53 @@ import java.util.TreeMap;
 
 import model.Artist;
 
-public class JDBCArtistDao implements ArtistDao{
+public class JDBCArtistDao implements ArtistDao {
 
 	private Database database = new Database();
-	
-	public List<Artist> getAllArtists() {
+
+	@Override
+	public Artist getArtist(long id) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+
+		try {
+			connection = database.connect();
+			statement = connection.prepareStatement("SELECT * FROM Artist WHERE ArtistId = (?);");
+			statement.setLong(1, id);
+			results = statement.executeQuery();
+
+			if (results.next()) {
+				Artist artist = new Artist(results.getLong("ArtistId"), results.getString("Name"));
+				return artist;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close(connection, statement, results);
+		}
 		
+		return null;
+	}
+
+	@Override
+	public List<Artist> getAllArtists() {
+
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet results = null;
 
 		List<Artist> artists = new ArrayList<Artist>();
-		
+
 		try {
 			connection = database.connect();
 			statement = connection.prepareStatement("SELECT * FROM Artist ORDER BY Name ASC;");
 			results = statement.executeQuery();
-			
+
 			while (results.next()) {
-				Artist artist = new Artist(results.getString("Name"), results.getLong("ArtistId"));
+				Artist artist = new Artist(results.getLong("ArtistId"), results.getString("Name"));
 				artists.add(artist);
 			}
 		} catch (SQLException e) {
@@ -40,7 +68,8 @@ public class JDBCArtistDao implements ArtistDao{
 		}
 		return artists;
 	}
-	
+
+	@Override
 	public Map<Artist, Integer> getAllArtistsAndAlbumCount() {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -55,7 +84,6 @@ public class JDBCArtistDao implements ArtistDao{
 			results = statement.executeQuery();
 
 			while (results.next()) {
-				// Artist artist = new Artist(results.getString("Name"), results.getLong("ArtistId"));
 				Artist artist = getArtist(results.getLong("ArtistId"));
 				Integer albumCount = (results.getInt("count"));
 				albums.put(artist, albumCount);
@@ -68,30 +96,8 @@ public class JDBCArtistDao implements ArtistDao{
 		return albums;
 	}
 
-	public Artist getArtist(long id) {
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet results = null;
-
-		try {
-			connection = database.connect();
-			statement = connection.prepareStatement("SELECT * FROM Artist WHERE ArtistId = (?);");
-			statement.setLong(1, id);
-			results = statement.executeQuery();
-			if(results.next()) {
-				Artist artist = new Artist(results.getString("Name"), results.getLong("ArtistId"));
-				return artist;
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			database.close(connection, statement, results);
-		}
-		return null;
-	}
-
-	public boolean addArtist(Artist newArtist) {
+	@Override
+	public boolean addArtist(Artist artist) {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet results = null;
@@ -102,11 +108,11 @@ public class JDBCArtistDao implements ArtistDao{
 			// https://stackoverflow.com/a/1376241/12748248
 			statement = connection.prepareStatement("INSERT INTO Artist (Name) VALUES (?);",
 					Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, newArtist.getTitle());
+			statement.setString(1, artist.getTitle());
 			statement.execute();
 			results = statement.getGeneratedKeys();
 			if (results.next()) {
-				newArtist.setId(results.getLong(1));
+				artist.setId(results.getLong(1));
 				return true;
 			}
 		} catch (SQLException e) {
@@ -117,6 +123,7 @@ public class JDBCArtistDao implements ArtistDao{
 		return false;
 	}
 
+	@Override
 	public boolean removeArtist(Artist artist) {
 
 		Connection connection = null;
@@ -144,5 +151,4 @@ public class JDBCArtistDao implements ArtistDao{
 		return false;
 	}
 
-	
 }
