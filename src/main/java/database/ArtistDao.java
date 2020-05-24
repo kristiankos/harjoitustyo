@@ -16,5 +16,7 @@ public interface ArtistDao {
 	public boolean addArtist(Artist artist);
 
 	public boolean removeArtist(Artist artist);
+	
+	public List<Artist> searchArtist(String search);
 
 }

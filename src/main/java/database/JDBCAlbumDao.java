@@ -25,7 +25,7 @@ public class JDBCAlbumDao implements AlbumDao {
 
 		try {
 			connection = database.connect();
-			statement = connection.prepareStatement("SELECT * FROM Album WHERE AlbumId = (?)");
+			statement = connection.prepareStatement("SELECT * FROM Album WHERE AlbumId = (?);");
 			statement.setLong(1, id);
 			results = statement.executeQuery();
 
@@ -138,9 +138,34 @@ public class JDBCAlbumDao implements AlbumDao {
 	}
 
 	@Override
-	public List<Artist> searchArtist() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Album> searchAlbum(String search) {
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		
+		List<Album> albums = new ArrayList<Album>();
+
+		try {
+			connection = database.connect();
+			statement = connection.prepareStatement("SELECT * FROM Album WHERE Title LIKE (?) ORDER BY Title ASC;");
+			statement.setString(1, "%" + search + "%");
+			results = statement.executeQuery();
+			
+			while (results.next()) {
+				Album album = getAlbum(results.getLong("AlbumId"));
+				albums.add(album);
+			}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close(connection, statement, results);
+		}
+
+		return albums;
 	}
+
 
 }

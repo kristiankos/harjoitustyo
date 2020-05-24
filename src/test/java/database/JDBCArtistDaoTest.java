@@ -67,5 +67,11 @@ class JDBCArtistDaoTest {
 		assertEquals(5, map.size());
 		
 	}
+	
+	@Test
+	void testSearchArtist() {
+		List<Artist> artists = dao.searchArtist("ac");
+		assertTrue(!artists.isEmpty());
+	}
 
 }

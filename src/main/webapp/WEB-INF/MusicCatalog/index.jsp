@@ -10,23 +10,29 @@
 <body>
 	<header>
 		<a href="/">Home</a>
-		<a href="/artist">Artists</a>
 	</header>
-	<br/>
-	<p>
-	${size }
-	</p>
-	
-	<p>Search an artist</p>
-	<form action="artist" method="get">
-		<input name="name" required type="text" placeholder="type name here..."/>
+
+	<div>
+	<p>Search an artist or album:</p>
+	<form action="search" method="get">
+		<input name="keyword" required type="text" placeholder="type name here..."/>
 		<input type="submit" value="Search" />
 	</form>
-	<p>Add an artist</p>
+	<br/>
+	</div>
+	<div>
+	<p>Add an artist:</p>
 	<form method="post">
 		<input name="name" required type="text" placeholder="type name here..."/>
 		<input type="submit" value="Add to list" />
 	</form>
+	</div>
+	<p>
+	<c:choose>
+		<c:when test="${ artists.size() == 1 }">There is 1 artist on the catalog.</c:when>
+		<c:otherwise>There are ${artists.size()} artists on the catalog.</c:otherwise>
+	</c:choose>
+	</p>
 	<table>
 		<thead>
 			<tr>

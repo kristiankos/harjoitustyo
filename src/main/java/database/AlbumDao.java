@@ -17,6 +17,6 @@ public interface AlbumDao {
 
 	public boolean removeAlbum(Album album);
 	
-	public List<Artist> searchArtist(); 
+	public List<Album> searchAlbum(String search);
 
 }

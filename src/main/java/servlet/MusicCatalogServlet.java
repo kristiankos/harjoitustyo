@@ -25,7 +25,6 @@ public class MusicCatalogServlet extends HttpServlet {
 		Map<Artist, Integer> artistsMap = artistDao.getAllArtistsAndAlbumCount();
 
 		req.setAttribute("artists", artistsMap);
-		req.setAttribute("size", artistsMap.size());
 
 		req.getRequestDispatcher("WEB-INF/MusicCatalog/index.jsp").forward(req, resp);
 

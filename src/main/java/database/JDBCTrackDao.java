@@ -25,6 +25,7 @@ public class JDBCTrackDao implements TrackDao {
 		try {
 			connection = database.connect();
 			statement = connection.prepareStatement("SELECT * FROM Track WHERE TrackId = (?);");
+			statement.setLong(1, id);
 			results = statement.executeQuery();
 
 			while (results.next()) {

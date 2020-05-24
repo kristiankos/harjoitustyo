@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 	<title>
-	<c:out value="${artist.getTitle() }" default="Artist"/>
+	<c:out value="${album.getTitle() }" default="Album"/>
 	</title>
 <!-- Really simple classless CSS stylesheet, see: https://github.com/oxalorg/sakura -->
 <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
@@ -16,31 +16,25 @@
 	</div>
 	</header>
 	<br/>
-	<div>
-	<p>Search an artist or album:</p>
-	<form action="search" method="get">
-		<input name="keyword" required type="text" placeholder="type name here..."/>
-		<input type="submit" value="Search" />
-	</form>
-	</div>
-	<c:if test="${ artist != null}">
-	<h3><c:out value="${artist.getTitle() }" /></h3>
+
+	<a href="${ album.getArtist().getUrl() }"><c:out value="${ album.getArtist().getTitle() }" /></a>
+	<h3>${album.getTitle() }</h3>
 	<div>
 	<table>
 		<thead>
 			<tr>
-				<th>Albums</th>
+				<th>Tracks</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${ albums }" var="album">
+			<c:forEach items="${ tracks }" var="track">
 				<tr>
-					<td><a href="${ album.getUrl() }"><c:out value="${ album.getTitle() }" /></a></td>
+					<td><c:out value="${ track.getTitle() }" /></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	</div>
-	</c:if>
+
 </body>
 </html>

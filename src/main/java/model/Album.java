@@ -45,8 +45,7 @@ public class Album implements MusicData {
 
 	@Override
 	public String getUrl() {
-		// TODO Auto-generated method stub
-		return null;
+		return "/album?id=" + this.id;
 	}
 
 }

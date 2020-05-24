@@ -7,4 +7,5 @@ public interface MusicData {
 	public String getTitle();
 
 	public String getUrl();
+	
 }

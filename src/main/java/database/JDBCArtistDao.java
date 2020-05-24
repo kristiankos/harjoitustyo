@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import model.Artist;
+import model.Track;
 
 public class JDBCArtistDao implements ArtistDao {
 
@@ -149,6 +150,36 @@ public class JDBCArtistDao implements ArtistDao {
 		}
 
 		return false;
+	}
+
+	@Override
+	public List<Artist> searchArtist(String search) {
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		
+		List<Artist> artists = new ArrayList<Artist>();
+
+		try {
+			connection = database.connect();
+			statement = connection.prepareStatement("SELECT * FROM Artist WHERE Name LIKE (?) ORDER BY Name ASC;");
+			statement.setString(1, "%" + search + "%");
+			results = statement.executeQuery();
+			
+			while (results.next()) {
+				Artist artist = getArtist(results.getLong("ArtistId"));
+				artists.add(artist);
+			}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close(connection, statement, results);
+		}
+
+		return artists;
 	}
 
 }
